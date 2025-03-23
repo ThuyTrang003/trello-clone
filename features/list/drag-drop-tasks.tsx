@@ -7,6 +7,7 @@ import {
 import { Card } from "../card/preview";
 import { closestCorners, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useBoardStore } from "@/stores/board-store";
+import { CardDialog } from "../card/card-dialog";
 interface DragDropTasksProps {
   list: IList;
 }
@@ -38,7 +39,7 @@ export function DragDropTasks({ list }: DragDropTasksProps) {
   [&::-webkit-scrollbar-thumb]:bg-gray-600"
         >
           {list.tasks.map((task) => (
-            <Card key={task.id} task={task} listId={list.id} />
+            <Card key={task.id} task={task} list={list} />
           ))}
         </div>
       </SortableContext>

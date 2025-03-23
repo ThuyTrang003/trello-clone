@@ -38,7 +38,7 @@ export function Board() {
         items={lists.map((col) => col.id)}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4 flex-1">
+        <div className="flex gap-3 overflow-x-auto pb-4 flex-1">
           {lists.map((list) => (
             <List key={list.id} list={list} />
           ))}

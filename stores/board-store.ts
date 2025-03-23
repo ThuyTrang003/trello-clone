@@ -19,6 +19,11 @@ interface BoardState {
     destinationListId: string,
     taskId: string
   ) => void;
+  updateTaskSubscribe: (
+    listId: string,
+    taskId: string,
+    isSubscribe: boolean
+  ) => void;
 }
 
 const initialLists: IList[] = [
@@ -29,7 +34,10 @@ const initialLists: IList[] = [
       {
         id: "1",
         title: "TESTER",
-        assignees: ["TT", "AT"],
+        assignees: [
+          { id: "1", name: "TT", avatar: "TT" },
+          { id: "2", name: "AT", avatar: "AT" },
+        ],
         isSubscribe: true,
         startDate: "2024-03-10",
         dueDate: "2024-03-15",
@@ -38,7 +46,11 @@ const initialLists: IList[] = [
       {
         id: "2",
         title: "DEV",
-        assignees: ["TT", "TD", "AT"],
+        assignees: [
+          { id: "1", name: "TT", avatar: "TT" },
+          { id: "3", name: "TD", avatar: "TD" },
+          { id: "2", name: "AT", avatar: "AT" },
+        ],
         isSubscribe: true,
         startDate: "2024-03-12",
         dueDate: "2024-03-20",
@@ -55,7 +67,11 @@ const initialLists: IList[] = [
         title: "Thực hiện whitebox testing",
         checklist: { total: 1, completed: 1 },
         comments: 3,
-        assignees: ["TD", "AT", "TT"],
+        assignees: [
+          { id: "3", name: "TD", avatar: "TD" },
+          { id: "2", name: "AT", avatar: "AT" },
+          { id: "1", name: "TT", avatar: "TT" },
+        ],
         isSubscribe: true,
         isDone: true,
       },
@@ -63,7 +79,11 @@ const initialLists: IList[] = [
         id: "4",
         title: "Thực hiện blackbox testing",
         checklist: { total: 1, completed: 1 },
-        assignees: ["TD", "AT", "TT"],
+        assignees: [
+          { id: "3", name: "TD", avatar: "TD" },
+          { id: "2", name: "AT", avatar: "AT" },
+          { id: "1", name: "TT", avatar: "TT" },
+        ],
         isSubscribe: true,
         dueDate: "2024-03-23",
         isDone: true,
@@ -76,7 +96,7 @@ const initialLists: IList[] = [
           { text: "Low", color: "#7D1C4A" },
         ],
         checklist: { total: 1, completed: 0 },
-        assignees: ["TD"],
+        assignees: [{ id: "3", name: "TD", avatar: "TD" }],
         isSubscribe: false,
         startDate: "2025-03-20",
         isDone: false,
@@ -87,12 +107,9 @@ const initialLists: IList[] = [
         labels: [
           { text: "Minor", color: "#205781" },
           { text: "Low", color: "#7D1C4A" },
-          { text: "Low", color: "#7D1C4A" },
-          { text: "Low", color: "#7D1C4A" },
-          { text: "Low", color: "#7D1C4A" },
         ],
         checklist: { total: 1, completed: 0 },
-        assignees: ["TD"],
+        assignees: [{ id: "3", name: "TD", avatar: "TD" }],
         isSubscribe: false,
         dueDate: "2025-03-24",
         isDone: false,
@@ -105,7 +122,7 @@ const initialLists: IList[] = [
           { text: "Low", color: "#7D1C4A" },
         ],
         checklist: { total: 1, completed: 0 },
-        assignees: ["TD"],
+        assignees: [{ id: "3", name: "TD", avatar: "TD" }],
         isSubscribe: false,
         isDone: false,
       },
@@ -117,7 +134,7 @@ const initialLists: IList[] = [
           { text: "Low", color: "#7D1C4A" },
         ],
         checklist: { total: 1, completed: 0 },
-        assignees: ["TD"],
+        assignees: [{ id: "3", name: "TD", avatar: "TD" }],
         isSubscribe: false,
         isDone: false,
       },
@@ -290,4 +307,25 @@ export const useBoardStore = create<BoardState>((set) => ({
 
       return { lists: updatedLists };
     }),
+
+  updateTaskSubscribe: (listId, taskId, isSubscribe) =>
+    set((state) => ({
+      lists: state.lists.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            tasks: list.tasks.map((task) => {
+              if (task.id === taskId) {
+                return {
+                  ...task,
+                  isSubscribe,
+                };
+              }
+              return task;
+            }),
+          };
+        }
+        return list;
+      }),
+    })),
 }));

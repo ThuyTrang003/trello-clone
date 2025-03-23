@@ -1,12 +1,13 @@
 export interface IAssignee {
   id: string;
-  isMyAccount: boolean;
+  name: string;
+  avatar: string;
 }
 
 export interface ITask {
   id: string;
   title: string;
-  assignees: string[];
+  assignees: IAssignee[];
   isSubscribe?: boolean;
   startDate?: string;
   dueDate?: string;
